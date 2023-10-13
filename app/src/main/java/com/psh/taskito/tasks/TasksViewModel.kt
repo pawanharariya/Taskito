@@ -1,4 +1,10 @@
 package com.psh.taskito.tasks
 
-class TasksViewModel {
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+
+class TasksViewModel(application : Application) : AndroidViewModel(application) {
+
+
+
 }

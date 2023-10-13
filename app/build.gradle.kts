@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -26,6 +28,10 @@ android {
             )
         }
     }
+    buildFeatures {
+        dataBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -36,15 +42,53 @@ android {
 }
 
 dependencies {
+    val androidXVersion = "1.0.0"
+    val androidXTestCoreVersion = "1.2.0"
+    val androidXTestExtKotlinRunnerVersion = "1.1.5"
+    val androidXTestRulesVersion = "1.2.0-beta01"
+    val androidXAnnotations = "1.0.1"
+    val androidXLegacySupport = "1.0.0"
+    val appCompatVersion = "1.6.1"
+    val archLifecycleVersion = "2.2.0"
+    val archTestingVersion = "2.0.0"
+    val constraintLayoutVersion = "2.1.4"
+    val coreKtxVersion = "1.9.0"
+    val coroutinesVersion = "1.3.7"
+    val dexMakerVersion = "2.12.1"
+    val espressoVersion = "3.2.1"
+    val hamcrestVersion = "1.3"
+    val junitVersion = "4.13.2"
+    val materialVersion = "1.9.0"
+    val mockitoVersion = "2.8.9"
+    val navigationVersion = "2.7.4"
+    val refreshLayoutVersion = "1.0.0"
+    val robolectricVersion = "4.3.1"
+    val roomVersion = "2.2.5"
+    val rulesVersion = "1.0.1"
+    val timberVersion = "4.7.1"
+    val truthVersion = "0.44"
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.4")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.4")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation("androidx.core:core-ktx:$coreKtxVersion")
+    implementation("androidx.appcompat:appcompat:$appCompatVersion")
+    implementation("com.google.android.material:material:$materialVersion")
+    implementation("androidx.constraintlayout:constraintlayout:$constraintLayoutVersion")
+    implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:$refreshLayoutVersion")
+    implementation("com.jakewharton.timber:timber:$timberVersion")
+
+    // Architecture Components
+    implementation("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion")
+    kapt("androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion")
+    implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
+
+    testImplementation("junit:junit:$junitVersion")
+    androidTestImplementation("androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion")
+    androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
 }
