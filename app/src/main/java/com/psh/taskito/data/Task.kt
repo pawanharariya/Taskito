@@ -3,6 +3,7 @@ package com.psh.taskito.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.UUID
 
 @Entity(tableName = "tasks")
 data class Task @JvmOverloads constructor(
@@ -15,8 +16,8 @@ data class Task @JvmOverloads constructor(
     @ColumnInfo(name = "completed")
     val isCompleted: Boolean = false,
 
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id")
-    var id: String
+    @PrimaryKey @ColumnInfo(name = "id")
+    var id: String = UUID.randomUUID().toString()
 ) {
 
     val titleForList: String

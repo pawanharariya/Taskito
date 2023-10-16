@@ -2,6 +2,7 @@ package com.psh.taskito.data.source
 
 import androidx.lifecycle.LiveData
 import com.psh.taskito.data.Task
+import com.psh.taskito.data.Result
 
 interface TasksDataSource {
     fun observeTasks(): LiveData<Result<List<Task>>>
