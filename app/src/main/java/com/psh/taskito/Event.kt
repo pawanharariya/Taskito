@@ -1,4 +1,4 @@
-package com.psh.taskito.util
+package com.psh.taskito
 
 import androidx.lifecycle.Observer
 
