@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.psh.taskito.data.Task
-import com.psh.taskito.databinding.TaskItemBinding
+import com.psh.taskito.databinding.ListItemTaskBinding
 import com.psh.taskito.tasks.TasksAdapter.ViewHolder
 
 /**
@@ -24,7 +24,7 @@ class TasksAdapter(private val viewModel: TasksViewModel) :
         return ViewHolder.from(parent)
     }
 
-    class ViewHolder private constructor(val binding: TaskItemBinding) :
+    class ViewHolder private constructor(private val binding: ListItemTaskBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(viewModel: TasksViewModel, item: Task) {
@@ -37,8 +37,7 @@ class TasksAdapter(private val viewModel: TasksViewModel) :
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = TaskItemBinding.inflate(layoutInflater, parent, false)
-
+                val binding = ListItemTaskBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
         }
