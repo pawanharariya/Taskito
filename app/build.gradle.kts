@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.psh.taskito"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.psh.taskito"
@@ -55,7 +55,7 @@ dependencies {
     val coreKtxVersion = "1.9.0"
     val coroutinesVersion = "1.3.7"
     val dexMakerVersion = "2.12.1"
-    val espressoVersion = "3.2.1"
+    val espressoVersion = "3.2.0-beta01"
     val hamcrestVersion = "1.3"
     val junitVersion = "4.13.2"
     val materialVersion = "1.9.0"
@@ -63,7 +63,7 @@ dependencies {
     val navigationVersion = "2.7.4"
     val refreshLayoutVersion = "1.0.0"
     val robolectricVersion = "4.3.1"
-    val roomVersion = "2.2.5"
+    val roomVersion = "2.6.0"
     val rulesVersion = "1.0.1"
     val timberVersion = "4.7.1"
     val truthVersion = "0.44"

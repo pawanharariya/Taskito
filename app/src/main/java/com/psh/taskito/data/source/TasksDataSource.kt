@@ -32,4 +32,6 @@ interface TasksDataSource {
     suspend fun deleteTask(taskId: String)
 
     suspend fun deleteAllTasks()
+
+    suspend fun updateTask(task: Task)
 }

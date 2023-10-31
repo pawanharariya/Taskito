@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
     tools:context=".tasks.TasksActivity"
     tools:openDrawer="start">
 
@@ -28,16 +29,15 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:defultNavHost="true"
             app:navGraph="@navigation/nav_graph" />
     </LinearLayout>
-    
+
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_drawer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/nav_drawer"
         android:layout_gravity="start"
-        app:menu="@menu/nav_drawer_menu"
+        android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        android:fitsSystemWindows="true"/>
+        app:menu="@menu/drawer_actions" />
 </androidx.drawerlayout.widget.DrawerLayout>

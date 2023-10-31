@@ -1,12 +1,53 @@
 package com.psh.taskito.tasks
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
 import android.os.Bundle
+import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationView
 import com.psh.taskito.R
 
 class TasksActivity : AppCompatActivity() {
+
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var points: LinearLayout
+    private lateinit var toolbarLayout: LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_tasks)
+        setupNavigationDrawer()
+        setSupportActionBar(findViewById(R.id.toolbar))
+
+        val navController: NavController = findNavController(R.id.nav_host_fragment_container)
+        appBarConfiguration =
+            AppBarConfiguration.Builder(R.id.fragment_tasks, R.id.fragment_statistics)
+                .setDrawerLayout(drawerLayout)
+                .build()
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        findViewById<NavigationView>(R.id.nav_drawer).setupWithNavController(navController)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return findNavController(R.id.nav_host_fragment_container).navigateUp(appBarConfiguration)
+                || super.onSupportNavigateUp()
+    }
+
+    private fun setupNavigationDrawer() {
+        drawerLayout = (findViewById<DrawerLayout>(R.id.drawer_layout))
+            .apply {
+                setStatusBarBackground(R.color.colorPrimaryDark)
+            }
     }
 }
+
+const val ADD_EDIT_RESULT_OK = Activity.RESULT_FIRST_USER + 1
+const val DELETE_RESULT_OK = Activity.RESULT_FIRST_USER + 2
+const val EDIT_RESULT_OK = Activity.RESULT_FIRST_USER + 3

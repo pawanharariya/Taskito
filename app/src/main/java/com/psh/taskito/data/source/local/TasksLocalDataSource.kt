@@ -1,5 +1,6 @@
 package com.psh.taskito.data.source.local
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.psh.taskito.data.Result
@@ -26,7 +27,9 @@ class TasksLocalDataSource internal constructor(
     }
 
     override fun observeTask(taskId: String): LiveData<Result<Task>> {
+        Log.e("Task","Inside local datasource = $taskId")
         return tasksDao.observeTaskById(taskId).map {
+            Log.e("Task","Inside local datasource mapping = $it")
             Success(it)
         }
     }
@@ -50,7 +53,11 @@ class TasksLocalDataSource internal constructor(
     override suspend fun getTask(taskId: String): Result<Task> = withContext(ioDispatcher) {
         try {
             val task = tasksDao.getTaskById(taskId)
-            return@withContext Success(task)
+            if (task != null) {
+                return@withContext Success(task)
+            } else {
+                return@withContext Error(Exception("Task not found!"))
+            }
         } catch (e: Exception) {
             return@withContext Error(e)
         }
@@ -68,6 +75,10 @@ class TasksLocalDataSource internal constructor(
         tasksDao.updateCompleted(taskId, true)
     }
 
+    override suspend fun updateTask(task: Task) {
+        tasksDao.updateTask(task)
+    }
+
     override suspend fun activateTask(task: Task) = withContext(ioDispatcher) {
         tasksDao.updateCompleted(task.id, false)
     }
@@ -81,7 +92,7 @@ class TasksLocalDataSource internal constructor(
     }
 
     override suspend fun deleteAllTasks() = withContext(ioDispatcher) {
-        tasksDao.deleteAllTasks()
+        tasksDao.deleteTasks()
     }
 
     override suspend fun deleteTask(taskId: String) = withContext<Unit>(ioDispatcher) {

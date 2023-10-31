@@ -6,15 +6,15 @@ import androidx.room.PrimaryKey
 import java.util.UUID
 
 @Entity(tableName = "tasks")
-data class Task @JvmOverloads constructor(
+data class Task constructor(
     @ColumnInfo(name = "title")
-    val title: String = "",
+    var title: String = "",
 
     @ColumnInfo(name = "description")
     var description: String = "",
 
     @ColumnInfo(name = "completed")
-    val isCompleted: Boolean = false,
+    var isCompleted: Boolean = false,
 
     @PrimaryKey @ColumnInfo(name = "id")
     var id: String = UUID.randomUUID().toString()

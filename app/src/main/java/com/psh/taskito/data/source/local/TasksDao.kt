@@ -10,17 +10,18 @@ import com.psh.taskito.data.Task
 
 @Dao
 interface TasksDao {
-    @Query("SELECT * FROM tasks")
+
+    @Query("SELECT * FROM Tasks")
     fun observeTasks(): LiveData<List<Task>>
 
-    @Query("SELECT * FROM tasks WHERE id = :taskId")
+    @Query("SELECT * FROM Tasks WHERE id = :taskId")
     fun observeTaskById(taskId: String): LiveData<Task>
 
-    @Query("SELECT * FROM tasks")
+    @Query("SELECT * FROM Tasks")
     suspend fun getTasks(): List<Task>
 
-    @Query("SELECT * FROM tasks WHERE id = :taskId")
-    suspend fun getTaskById(taskId: String): Task
+    @Query("SELECT * FROM Tasks WHERE id = :taskId")
+    suspend fun getTaskById(taskId: String): Task?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: Task)
@@ -35,7 +36,7 @@ interface TasksDao {
     suspend fun deleteTaskById(taskId: String): Int
 
     @Query("DELETE FROM Tasks")
-    suspend fun deleteAllTasks()
+    suspend fun deleteTasks()
 
     @Query("DELETE FROM Tasks WHERE completed = 1")
     suspend fun deleteCompletedTasks(): Int
