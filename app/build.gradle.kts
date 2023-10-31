@@ -56,7 +56,6 @@ dependencies {
     val coroutinesVersion = "1.3.7"
     val dexMakerVersion = "2.12.1"
     val espressoVersion = "3.2.0-beta01"
-    val hamcrestVersion = "1.3"
     val junitVersion = "4.13.2"
     val materialVersion = "1.9.0"
     val mockitoVersion = "2.8.9"
