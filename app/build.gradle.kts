@@ -39,11 +39,15 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    testOptions.unitTests {
+        isIncludeAndroidResources = true
+    }
 }
 
 dependencies {
     val androidXVersion = "1.0.0"
-    val androidXTestCoreVersion = "1.2.0"
+    val androidXTestCoreVersion = "1.5.0"
     val androidXTestExtKotlinRunnerVersion = "1.1.5"
     val androidXTestRulesVersion = "1.2.0-beta01"
     val androidXAnnotations = "1.0.1"
@@ -61,7 +65,7 @@ dependencies {
     val mockitoVersion = "2.8.9"
     val navigationVersion = "2.7.4"
     val refreshLayoutVersion = "1.0.0"
-    val robolectricVersion = "4.3.1"
+    val robolectricVersion = "4.9"
     val roomVersion = "2.6.0"
     val rulesVersion = "1.0.1"
     val timberVersion = "4.7.1"
@@ -86,6 +90,12 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion")
     implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
+
+    // AndroidX Test - JVM testing
+    testImplementation("androidx.test:core-ktx:$androidXTestCoreVersion")
+    testImplementation("org.robolectric:robolectric:$robolectricVersion")
+    testImplementation("androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion")
+    testImplementation("androidx.arch.core:core-testing:$archTestingVersion")
 
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion")
