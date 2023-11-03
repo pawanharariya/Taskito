@@ -1,7 +1,6 @@
 package com.psh.taskito.data.source
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.psh.taskito.data.Result
@@ -17,11 +16,11 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TasksRepository private constructor(application: Application) {
-
-    private val tasksRemoteDataSource: TasksDataSource
-    private val tasksLocalDataSource: TasksDataSource
+class TasksRepository constructor(
+    private val tasksRemoteDataSource: TasksDataSource,
+    private val tasksLocalDataSource: TasksDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
 
     companion object {
         @Volatile
@@ -29,22 +28,20 @@ class TasksRepository private constructor(application: Application) {
 
         fun getRepository(app: Application): TasksRepository {
             return INSTANCE ?: synchronized(this) {
-                TasksRepository(app).also {
+
+                val database = Room.databaseBuilder(
+                    app,
+                    TaskitoDatabase::class.java, "Tasks.db"
+                )
+                    .build()
+                TasksRepository(
+                    TasksRemoteDataSource,
+                    TasksLocalDataSource(database.tasksDao())
+                ).also {
                     INSTANCE = it
                 }
             }
         }
-    }
-
-    init {
-        val database = Room.databaseBuilder(
-            application.applicationContext,
-            TaskitoDatabase::class.java, "Tasks.db"
-        )
-            .build()
-
-        tasksRemoteDataSource = TasksRemoteDataSource
-        tasksLocalDataSource = TasksLocalDataSource(database.tasksDao())
     }
 
     suspend fun getTasks(forceUpdate: Boolean = false): Result<List<Task>> {

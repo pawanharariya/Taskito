@@ -96,6 +96,7 @@ dependencies {
     testImplementation("org.robolectric:robolectric:$robolectricVersion")
     testImplementation("androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion")
     testImplementation("androidx.arch.core:core-testing:$archTestingVersion")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
 
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion")
