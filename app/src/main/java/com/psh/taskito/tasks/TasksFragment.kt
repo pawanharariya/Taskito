@@ -17,13 +17,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.psh.taskito.EventObserver
 import com.psh.taskito.R
+import com.psh.taskito.data.source.TasksRepository
 import com.psh.taskito.databinding.FragmentTasksBinding
 import com.psh.taskito.util.setupRefreshLayout
 import com.psh.taskito.util.setupSnackbar
 
 class TasksFragment : Fragment() {
 
-    private val viewModel by viewModels<TasksViewModel>()
+    private val viewModel by viewModels<TasksViewModel>() {
+        TasksViewModel.TasksViewModelFactory(
+            TasksRepository.getRepository(requireActivity().application)
+        )
+    }
 
     private val args: TasksFragmentArgs by navArgs()
 

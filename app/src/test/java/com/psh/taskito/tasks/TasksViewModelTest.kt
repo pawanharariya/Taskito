@@ -1,20 +1,19 @@
 package com.psh.taskito.tasks
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.psh.taskito.data.Task
+import com.psh.taskito.data.source.FakeTestRepository
 import com.psh.taskito.getOrAwaitValue
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
 class TasksViewModelTest {
 
     private lateinit var tasksViewModel: TasksViewModel
+    private lateinit var fakeTestRepository: FakeTestRepository
 
     // Executes each task synchronously using Architecture Components.
     @get:Rule
@@ -22,7 +21,12 @@ class TasksViewModelTest {
 
     @Before
     fun setupViewModel() {
-        tasksViewModel = TasksViewModel(ApplicationProvider.getApplicationContext())
+        fakeTestRepository = FakeTestRepository()
+        val task1 = Task("Title1", "Description1")
+        val task2 = Task("Title2", "Description2", true)
+        val task3 = Task("Title3", "Description3", true)
+        fakeTestRepository.addTasks(task1, task2, task3)
+        tasksViewModel = TasksViewModel(fakeTestRepository)
     }
 
     @Test

@@ -1,11 +1,11 @@
 package com.psh.taskito.tasks
 
-import android.app.Application
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
@@ -14,12 +14,11 @@ import com.psh.taskito.R
 import com.psh.taskito.data.Result
 import com.psh.taskito.data.Result.Success
 import com.psh.taskito.data.Task
+import com.psh.taskito.data.source.Repository
 import com.psh.taskito.data.source.TasksRepository
 import kotlinx.coroutines.launch
 
-class TasksViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val tasksRepository = TasksRepository.getRepository(application)
+class TasksViewModel(private val tasksRepository: Repository) : ViewModel() {
 
     private val _forceUpdate = MutableLiveData<Boolean>(false)
 
@@ -215,5 +214,12 @@ class TasksViewModel(application: Application) : AndroidViewModel(application) {
 
     fun refresh() {
         _forceUpdate.value = true
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    class TasksViewModelFactory(private val tasksRepository: TasksRepository) :
+        ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel> create(modelClass: Class<T>) =
+            (TasksViewModel(tasksRepository) as T)
     }
 }
