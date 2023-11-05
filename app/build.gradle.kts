@@ -60,6 +60,7 @@ dependencies {
     val coroutinesVersion = "1.3.7"
     val dexMakerVersion = "2.12.1"
     val espressoVersion = "3.2.0-beta01"
+    val fragmentVersion = "1.1.0-alpha07"
     val junitVersion = "4.13.2"
     val materialVersion = "1.9.0"
     val mockitoVersion = "2.8.9"
@@ -97,6 +98,11 @@ dependencies {
     testImplementation("androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion")
     testImplementation("androidx.arch.core:core-testing:$archTestingVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+
+    androidTestImplementation("junit:junit:$junitVersion")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+    implementation("androidx.fragment:fragment-testing:$fragmentVersion")
+    implementation("androidx.test:core:$androidXTestCoreVersion")
 
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion")
