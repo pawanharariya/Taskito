@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.psh.taskito.EventObserver
 import com.psh.taskito.R
+import com.psh.taskito.TaskitoApplication
 import com.psh.taskito.databinding.FragmentTaskDetailBinding
 import com.psh.taskito.tasks.DELETE_RESULT_OK
 import com.psh.taskito.util.setupRefreshLayout
@@ -27,7 +28,9 @@ class TaskDetailFragment : Fragment() {
 
     private val args: TaskDetailFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<TaskDetailViewModel>()
+    private val viewModel by viewModels<TaskDetailViewModel> {
+        TaskDetailViewModelFactory((requireContext().applicationContext as TaskitoApplication).taskRepository)
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

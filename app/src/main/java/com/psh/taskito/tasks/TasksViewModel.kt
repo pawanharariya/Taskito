@@ -15,12 +15,11 @@ import com.psh.taskito.data.Result
 import com.psh.taskito.data.Result.Success
 import com.psh.taskito.data.Task
 import com.psh.taskito.data.source.Repository
-import com.psh.taskito.data.source.TasksRepository
 import kotlinx.coroutines.launch
 
 class TasksViewModel(private val tasksRepository: Repository) : ViewModel() {
 
-    private val _forceUpdate = MutableLiveData<Boolean>(false)
+    private val _forceUpdate = MutableLiveData(false)
 
     private val _items: LiveData<List<Task>> = _forceUpdate.switchMap { forceUpdate ->
         if (forceUpdate) {
@@ -215,11 +214,11 @@ class TasksViewModel(private val tasksRepository: Repository) : ViewModel() {
     fun refresh() {
         _forceUpdate.value = true
     }
+}
 
-    @Suppress("UNCHECKED_CAST")
-    class TasksViewModelFactory(private val tasksRepository: TasksRepository) :
-        ViewModelProvider.NewInstanceFactory() {
-        override fun <T : ViewModel> create(modelClass: Class<T>) =
-            (TasksViewModel(tasksRepository) as T)
-    }
+@Suppress("UNCHECKED_CAST")
+class TasksViewModelFactory(private val tasksRepository: Repository) :
+    ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel> create(modelClass: Class<T>) =
+        (TasksViewModel(tasksRepository) as T)
 }

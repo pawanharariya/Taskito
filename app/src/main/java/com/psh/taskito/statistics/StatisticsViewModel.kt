@@ -1,24 +1,22 @@
 package com.psh.taskito.statistics
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.psh.taskito.data.Result
 import com.psh.taskito.data.Result.Error
 import com.psh.taskito.data.Result.Success
 import com.psh.taskito.data.Task
-import com.psh.taskito.data.source.TasksRepository
+import com.psh.taskito.data.source.Repository
 import kotlinx.coroutines.launch
 
 /**
  * ViewModel for the statistics screen.
  */
-class StatisticsViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val tasksRepository = TasksRepository.getRepository(application)
+class StatisticsViewModel(private val tasksRepository: Repository) : ViewModel() {
 
     private val tasks: LiveData<Result<List<Task>>> = tasksRepository.observeTasks()
     private val _dataLoading = MutableLiveData<Boolean>(false)
@@ -45,4 +43,11 @@ class StatisticsViewModel(application: Application) : AndroidViewModel(applicati
             _dataLoading.value = false
         }
     }
+}
+
+@Suppress("UNCHECKED_CAST")
+class StatisticsViewModelFactory(private val tasksRepository: Repository) :
+    ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel> create(modelClass: Class<T>) =
+        (StatisticsViewModel(tasksRepository) as T)
 }

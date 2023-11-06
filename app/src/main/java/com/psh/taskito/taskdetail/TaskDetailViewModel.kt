@@ -1,11 +1,10 @@
 package com.psh.taskito.taskdetail
 
-import android.app.Application
-import android.util.Log
 import androidx.annotation.StringRes
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
@@ -14,15 +13,13 @@ import com.psh.taskito.R
 import com.psh.taskito.data.Result
 import com.psh.taskito.data.Result.Success
 import com.psh.taskito.data.Task
-import com.psh.taskito.data.source.TasksRepository
+import com.psh.taskito.data.source.Repository
 import kotlinx.coroutines.launch
 
 /**
  * ViewModel for the Details screen.
  */
-class TaskDetailViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val tasksRepository = TasksRepository.getRepository(application)
+class TaskDetailViewModel(private val tasksRepository: Repository) : ViewModel() {
 
     private val _taskId = MutableLiveData<String>()
 
@@ -109,4 +106,11 @@ class TaskDetailViewModel(application: Application) : AndroidViewModel(applicati
     private fun showSnackbarMessage(@StringRes message: Int) {
         _snackbarText.value = Event(message)
     }
+}
+
+@Suppress("UNCHECKED_CAST")
+class TaskDetailViewModelFactory(private val tasksRepository: Repository) :
+    ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel> create(modelClass: Class<T>) =
+        (TaskDetailViewModel(tasksRepository) as T)
 }

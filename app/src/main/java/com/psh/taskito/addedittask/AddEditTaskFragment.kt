@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.psh.taskito.EventObserver
 import com.psh.taskito.R
+import com.psh.taskito.TaskitoApplication
 import com.psh.taskito.databinding.FragmentAddTaskBinding
 import com.psh.taskito.tasks.ADD_EDIT_RESULT_OK
 import com.psh.taskito.util.setupRefreshLayout
@@ -25,11 +26,12 @@ class AddEditTaskFragment : Fragment() {
 
     private val args: AddEditTaskFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<AddEditTaskViewModel>()
+    private val viewModel by viewModels<AddEditTaskViewModel> {
+        AddEditTaskViewModelFactory((requireContext().applicationContext as TaskitoApplication).taskRepository)
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val root = inflater.inflate(R.layout.fragment_add_task, container, false)
         viewDataBinding = FragmentAddTaskBinding.bind(root).apply {
@@ -54,8 +56,9 @@ class AddEditTaskFragment : Fragment() {
 
     private fun setupNavigation() {
         viewModel.taskUpdatedEvent.observe(this, EventObserver {
-            val action = AddEditTaskFragmentDirections
-                .actionAddEditTaskFragmentToTasksFragment(ADD_EDIT_RESULT_OK)
+            val action = AddEditTaskFragmentDirections.actionAddEditTaskFragmentToTasksFragment(
+                    ADD_EDIT_RESULT_OK
+                )
             findNavController().navigate(action)
         })
     }

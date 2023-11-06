@@ -101,8 +101,10 @@ dependencies {
 
     androidTestImplementation("junit:junit:$junitVersion")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
-    implementation("androidx.fragment:fragment-testing:$fragmentVersion")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+    debugImplementation("androidx.fragment:fragment-testing:$fragmentVersion")
     implementation("androidx.test:core:$androidXTestCoreVersion")
+
 
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion")

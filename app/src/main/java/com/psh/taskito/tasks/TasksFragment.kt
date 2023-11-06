@@ -17,17 +17,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.psh.taskito.EventObserver
 import com.psh.taskito.R
-import com.psh.taskito.data.source.TasksRepository
+import com.psh.taskito.TaskitoApplication
 import com.psh.taskito.databinding.FragmentTasksBinding
 import com.psh.taskito.util.setupRefreshLayout
 import com.psh.taskito.util.setupSnackbar
 
 class TasksFragment : Fragment() {
 
-    private val viewModel by viewModels<TasksViewModel>() {
-        TasksViewModel.TasksViewModelFactory(
-            TasksRepository.getRepository(requireActivity().application)
-        )
+    private val viewModel by viewModels<TasksViewModel> {
+        TasksViewModelFactory((requireContext().applicationContext as TaskitoApplication).taskRepository)
     }
 
     private val args: TasksFragmentArgs by navArgs()
@@ -37,8 +35,7 @@ class TasksFragment : Fragment() {
     private lateinit var listAdapter: TasksAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         viewDataBinding = FragmentTasksBinding.inflate(inflater, container, false).apply {
             viewmodel = viewModel
@@ -47,25 +44,24 @@ class TasksFragment : Fragment() {
         return viewDataBinding.root
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) =
-        when (item.itemId) {
-            R.id.menu_clear -> {
-                viewModel.clearCompletedTasks()
-                true
-            }
-
-            R.id.menu_filter -> {
-                showFilteringPopUpMenu()
-                true
-            }
-
-            R.id.menu_refresh -> {
-                viewModel.loadTasks(true)
-                true
-            }
-
-            else -> false
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.menu_clear -> {
+            viewModel.clearCompletedTasks()
+            true
         }
+
+        R.id.menu_filter -> {
+            showFilteringPopUpMenu()
+            true
+        }
+
+        R.id.menu_refresh -> {
+            viewModel.loadTasks(true)
+            true
+        }
+
+        else -> false
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.tasks_fragment_menu, menu)
@@ -127,11 +123,9 @@ class TasksFragment : Fragment() {
     }
 
     private fun navigateToAddNewTask() {
-        val action = TasksFragmentDirections
-            .actionTasksFragmentToAddEditTaskFragment(
-                null,
-                resources.getString(R.string.add_task)
-            )
+        val action = TasksFragmentDirections.actionTasksFragmentToAddEditTaskFragment(
+            null, resources.getString(R.string.add_task)
+        )
         findNavController().navigate(action)
     }
 

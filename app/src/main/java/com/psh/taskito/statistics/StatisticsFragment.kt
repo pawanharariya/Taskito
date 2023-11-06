@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.psh.taskito.R
+import com.psh.taskito.TaskitoApplication
 import com.psh.taskito.databinding.FragmentStatisticsBinding
 import com.psh.taskito.util.setupRefreshLayout
 
@@ -15,7 +16,9 @@ class StatisticsFragment : Fragment() {
 
     private lateinit var viewDataBinding: FragmentStatisticsBinding
 
-    private val viewModel by viewModels<StatisticsViewModel>()
+    private val viewModel by viewModels<StatisticsViewModel> {
+        StatisticsViewModelFactory((requireContext().applicationContext as TaskitoApplication).taskRepository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

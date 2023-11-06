@@ -1,23 +1,21 @@
 package com.psh.taskito.addedittask
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.psh.taskito.Event
 import com.psh.taskito.R
 import com.psh.taskito.data.Result.Success
 import com.psh.taskito.data.Task
-import com.psh.taskito.data.source.TasksRepository
+import com.psh.taskito.data.source.Repository
 import kotlinx.coroutines.launch
 
 /**
  * ViewModel for the Add/Edit screen.
  */
-class AddEditTaskViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val tasksRepository = TasksRepository.getRepository(application)
+class AddEditTaskViewModel(private val tasksRepository: Repository) : ViewModel() {
 
     // Two-way databinding, exposing MutableLiveData
     val title = MutableLiveData<String>()
@@ -121,4 +119,11 @@ class AddEditTaskViewModel(application: Application) : AndroidViewModel(applicat
             _taskUpdatedEvent.value = Event(Unit)
         }
     }
+}
+
+@Suppress("UNCHECKED_CAST")
+class AddEditTaskViewModelFactory(private val tasksRepository: Repository) :
+    ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel> create(modelClass: Class<T>) =
+        (AddEditTaskViewModel(tasksRepository) as T)
 }

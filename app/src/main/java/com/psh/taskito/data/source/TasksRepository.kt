@@ -1,15 +1,10 @@
 package com.psh.taskito.data.source
 
-import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.room.Room
 import com.psh.taskito.data.Result
 import com.psh.taskito.data.Result.Error
 import com.psh.taskito.data.Result.Success
 import com.psh.taskito.data.Task
-import com.psh.taskito.data.source.local.TaskitoDatabase
-import com.psh.taskito.data.source.local.TasksLocalDataSource
-import com.psh.taskito.data.source.remote.TasksRemoteDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -21,28 +16,6 @@ class TasksRepository constructor(
     private val tasksLocalDataSource: TasksDataSource,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : Repository {
-
-    companion object {
-        @Volatile
-        private var INSTANCE: TasksRepository? = null
-
-        fun getRepository(app: Application): TasksRepository {
-            return INSTANCE ?: synchronized(this) {
-
-                val database = Room.databaseBuilder(
-                    app,
-                    TaskitoDatabase::class.java, "Tasks.db"
-                )
-                    .build()
-                TasksRepository(
-                    TasksRemoteDataSource,
-                    TasksLocalDataSource(database.tasksDao())
-                ).also {
-                    INSTANCE = it
-                }
-            }
-        }
-    }
 
     override suspend fun getTasks(forceUpdate: Boolean): Result<List<Task>> {
         if (forceUpdate) {
