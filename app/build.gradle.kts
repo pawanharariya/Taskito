@@ -104,7 +104,8 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
     debugImplementation("androidx.fragment:fragment-testing:$fragmentVersion")
     implementation("androidx.test:core:$androidXTestCoreVersion")
-
+    androidTestImplementation("org.mockito:mockito-core:$mockitoVersion")
+    androidTestImplementation("androidx.navigation:navigation-testing:$navigationVersion")
 
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion")

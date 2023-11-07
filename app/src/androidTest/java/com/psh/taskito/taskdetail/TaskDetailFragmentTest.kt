@@ -15,7 +15,7 @@ import com.psh.taskito.data.Task
 import com.psh.taskito.data.source.Repository
 import com.psh.taskito.taskdetail.data.source.FakeAndroidTestRepository
 import kotlinx.coroutines.test.runTest
-import org.hamcrest.CoreMatchers.not
+import org.hamcrest.core.IsNot.not
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -36,8 +36,8 @@ class TaskDetailFragmentTest {
     @Test
     fun activeTaskDetails_DisplayedInUi() = runTest {
         val activeTask = Task("Active Task", "Description", false)
-        val bundle = TaskDetailFragmentArgs(activeTask.id).toBundle()
         repository.saveTask(activeTask)
+        val bundle = TaskDetailFragmentArgs(activeTask.id).toBundle()
         launchFragmentInContainer<TaskDetailFragment>(bundle, R.style.Base_Theme_Taskito)
         onView(withId(R.id.task_detail_title_text)).check(matches(isDisplayed()))
         onView(withId(R.id.task_detail_title_text)).check(matches(withText("Active Task")))
@@ -45,6 +45,20 @@ class TaskDetailFragmentTest {
         onView(withId(R.id.task_detail_description_text)).check(matches(withText("Description")))
         onView(withId(R.id.task_detail_complete_checkbox)).check(matches(isDisplayed()))
         onView(withId(R.id.task_detail_complete_checkbox)).check(matches(not(isChecked())))
+    }
+
+    @Test
+    fun completedTaskDetails_DisplayedInUi() = runTest {
+        val completedTask = Task("Completed Task", "Description", true)
+        repository.saveTask(completedTask)
+        val bundle = TaskDetailFragmentArgs(completedTask.id).toBundle()
+        launchFragmentInContainer<TaskDetailFragment>(bundle, R.style.Base_Theme_Taskito)
+        onView(withId(R.id.task_detail_title_text)).check(matches(isDisplayed()))
+        onView(withId(R.id.task_detail_title_text)).check(matches(withText("Completed Task")))
+        onView(withId(R.id.task_detail_description_text)).check(matches(isDisplayed()))
+        onView(withId(R.id.task_detail_description_text)).check(matches(withText("Description")))
+        onView(withId(R.id.task_detail_complete_checkbox)).check(matches(isDisplayed()))
+        onView(withId(R.id.task_detail_complete_checkbox)).check(matches(isChecked()))
     }
 
     @After
