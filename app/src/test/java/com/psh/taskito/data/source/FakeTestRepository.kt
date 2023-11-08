@@ -11,7 +11,7 @@ import kotlinx.coroutines.runBlocking
 
 class FakeTestRepository : Repository {
 
-    private var tasksServiceData: LinkedHashMap<String, Task> = LinkedHashMap()
+    var tasksServiceData: LinkedHashMap<String, Task> = LinkedHashMap()
     private val observableTasks = MutableLiveData<Result<List<Task>>>()
 
     override suspend fun getTasks(forceUpdate: Boolean): Result<List<Task>> {

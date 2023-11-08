@@ -1,11 +1,13 @@
 package com.psh.taskito.data.source
 
+import com.psh.taskito.MainDispatcherRule
 import com.psh.taskito.data.Result.Success
 import com.psh.taskito.data.Task
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class TasksRepositoryTest {
@@ -20,11 +22,17 @@ class TasksRepositoryTest {
     private lateinit var remoteDataSource: FakeDataSource
     private lateinit var tasksRepository: TasksRepository
 
+    // Replaces Main dispatcher with a TestDispatcher for local unit tests
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
     @Before
     fun createRepository() {
         remoteDataSource = FakeDataSource(remoteTasks.toMutableList())
         localDataSource = FakeDataSource(localTasks.toMutableList())
-        tasksRepository = TasksRepository(remoteDataSource, localDataSource, Dispatchers.Unconfined)
+        tasksRepository =
+            TasksRepository(remoteDataSource, localDataSource, mainDispatcherRule.testDispatcher)
     }
 
     @Test
