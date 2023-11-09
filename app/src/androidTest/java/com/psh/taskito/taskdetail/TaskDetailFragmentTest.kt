@@ -13,7 +13,7 @@ import com.psh.taskito.R
 import com.psh.taskito.ServiceLocator
 import com.psh.taskito.data.Task
 import com.psh.taskito.data.source.Repository
-import com.psh.taskito.taskdetail.data.source.FakeAndroidTestRepository
+import com.psh.taskito.data.source.FakeAndroidTestRepository
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.core.IsNot.not
 import org.junit.After

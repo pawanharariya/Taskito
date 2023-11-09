@@ -107,6 +107,8 @@ dependencies {
     androidTestImplementation("org.mockito:mockito-core:$mockitoVersion")
     androidTestImplementation("androidx.navigation:navigation-testing:$navigationVersion")
 
+    // Architecture component testing library to your instrumented tests
+    androidTestImplementation("androidx.arch.core:core-testing:$archTestingVersion")
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")

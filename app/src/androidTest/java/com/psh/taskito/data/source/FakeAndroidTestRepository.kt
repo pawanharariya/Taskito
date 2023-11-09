@@ -1,4 +1,4 @@
-package com.psh.taskito.taskdetail.data.source
+package com.psh.taskito.data.source
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
