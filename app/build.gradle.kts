@@ -42,6 +42,7 @@ android {
 
     testOptions.unitTests {
         isIncludeAndroidResources = true
+        isReturnDefaultValues = true
     }
 }
 
@@ -106,6 +107,8 @@ dependencies {
     implementation("androidx.test:core:$androidXTestCoreVersion")
     androidTestImplementation("org.mockito:mockito-core:$mockitoVersion")
     androidTestImplementation("androidx.navigation:navigation-testing:$navigationVersion")
+
+    implementation("androidx.test.espresso:espresso-idling-resource:$espressoVersion")
 
     // Architecture component testing library to your instrumented tests
     androidTestImplementation("androidx.arch.core:core-testing:$archTestingVersion")
